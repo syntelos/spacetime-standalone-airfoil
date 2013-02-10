@@ -16,7 +16,7 @@
  * along with this program.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package airfoil;
+package airfoil.etc;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;

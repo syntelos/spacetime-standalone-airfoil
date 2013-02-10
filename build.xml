@@ -61,7 +61,7 @@
     <mkdir dir="${tgt}"/>
 
 
-    <copy file="${ver}/src/airfoil/Version.java" tofile="${src}/airfoil/Version.java"
+    <copy file="${ver}/src/airfoil/etc/Version.java" tofile="${src}/airfoil/etc/Version.java"
           filtering="true" overwrite="true">
       <filterset>
         <filter token="VersionMajor" value="${version.major}"/>

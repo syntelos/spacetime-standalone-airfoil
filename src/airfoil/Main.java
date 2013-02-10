@@ -39,7 +39,7 @@ import com.badlogic.gdx.math.Vector3;
  * @author jdp
  */
 public class Main
-    extends Controller
+    extends airfoil.etc.Controller
     implements com.badlogic.gdx.ApplicationListener
 {
     private final static Color ColorClear = new Color(0.5f,0.5f,0.6f,1.0f);
@@ -54,7 +54,7 @@ public class Main
 
     public final static String Title = "Spacetime Airfoil";
 
-    public final static airfoil.Viewport Viewport = airfoil.Viewport.Screen.Half.viewport();
+    public final static airfoil.etc.Viewport Viewport = airfoil.etc.Viewport.Screen.Half.viewport();
 
 
 

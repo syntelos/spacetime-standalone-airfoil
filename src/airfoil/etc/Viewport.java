@@ -16,7 +16,7 @@
  * along with this program.  If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package airfoil;
+package airfoil.etc;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
