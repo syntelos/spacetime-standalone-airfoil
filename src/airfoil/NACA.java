@@ -182,7 +182,7 @@ public class NACA
 
         final int ve = model.ve;
 
-        float[] vertices = model.getModelVertices();
+        float[] gl_lines_panel_order = model.getModelVertices();
         {
             int lx, ly, ux, uy;
             float dtx, dty;
@@ -204,33 +204,33 @@ public class NACA
 
                 dtx = (float)(foil.tc * Math.sin( foil.beta ));
                 dty = (float)(foil.tc * Math.cos( foil.beta ));
-                vertices[lx] = foil.xc + dtx;
-                vertices[ly] = foil.yc - dty;
-                vertices[ux] = foil.xc - dtx;
-                vertices[uy] = foil.yc + dty;
+                gl_lines_panel_order[lx] = foil.xc + dtx;
+                gl_lines_panel_order[ly] = foil.yc - dty;
+                gl_lines_panel_order[ux] = foil.xc - dtx;
+                gl_lines_panel_order[uy] = foil.yc + dty;
             }
         }
         {
-            vertices[0] = 1.0f;
-            vertices[1] = 0.0f;
+            gl_lines_panel_order[0] = 1.0f;
+            gl_lines_panel_order[1] = 0.0f;
         }
         {
             int e = ve;
 
-            vertices[e] = 0.0f;
+            gl_lines_panel_order[e] = 0.0f;
 
             e += 1;
             
-            vertices[e] = 0.0f;
+            gl_lines_panel_order[e] = 0.0f;
         }
         {
             final int nx = (model.np-1)<<1;
             final int ny = (nx+1);
 
-            vertices[nx] = vertices[0];
-            vertices[ny] = vertices[1];
+            gl_lines_panel_order[nx] = gl_lines_panel_order[0];
+            gl_lines_panel_order[ny] = gl_lines_panel_order[1];
         }
-        model.setModelVertices(vertices);
+        model.setModelVertices(gl_lines_panel_order);
     }
     public String toString(){
         return this.number.toString();

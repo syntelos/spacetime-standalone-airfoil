@@ -76,6 +76,7 @@ public class Main
         this.database = new NACA(this.naca_number);
         this.database.init(this.resolution);
         this.database.generate(Geometry.Model,this.geometry);
+        this.scale = 3.0f;
     }
 
 

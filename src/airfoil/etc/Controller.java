@@ -64,17 +64,17 @@ public abstract class Controller
 
     public int width, height;
 
-    private Matrix4 camera = new Matrix4();
+    protected Matrix4 camera = new Matrix4();
 
-    private Vector3 last = new Vector3();
+    protected Vector3 last = new Vector3();
 
-    private Matrix4 orientation;
+    protected Matrix4 orientation;
 
-    private Matrix4 rotation = new Matrix4();
+    protected Matrix4 rotation = new Matrix4();
 
-    private float scale = 1.0f, hor, ver;
+    protected float scale = 1.0f, hor, ver;
 
-    private boolean button;
+    protected boolean button;
 
 
 
@@ -102,7 +102,6 @@ public abstract class Controller
     private void reinit(){
 
         this.camera.setToOrtho(-this.hor,+this.hor,-this.ver,+this.ver,-this.hor,+this.hor);
-
         /*
          */
         if (1.0f != this.scale){
@@ -113,7 +112,6 @@ public abstract class Controller
          * Flip default orientation from viewer at Z- to Z+
          */
         this.camera.mul(this.orientation);
-
         /*
          */
         if (null != this.rotation){
@@ -156,11 +154,11 @@ public abstract class Controller
 
         if (this.button){
 
-            rotation = new Quaternion(YA,-delta.x).mul(new Quaternion(XA,delta.y));
+            rotation = new Quaternion(YA,-delta.x).mul(new Quaternion(YA,delta.y));
         }
         else {
 
-            rotation = new Quaternion(ZA,delta.z).mul(new Quaternion(YA,-delta.y));
+            rotation = new Quaternion(ZA,delta.z).mul(new Quaternion(ZA,-delta.y));
         }
 
         this.rotation.mul(new Matrix4(rotation));
