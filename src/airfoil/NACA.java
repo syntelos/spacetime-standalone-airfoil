@@ -1,5 +1,6 @@
 /*
  * Spacetime Standalone Airfoil
+ * Copyright (C) 2002, Kevin Jones.
  * Copyright (C) 2013, John Pritchard.
  * 
  * This program is free software: you can redistribute it and/or
