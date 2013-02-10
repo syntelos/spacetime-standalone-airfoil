@@ -1,0 +1,15 @@
+<project name="etc">
+
+  <macrodef name="etc-libclasspath">
+    <attribute name="type"/>
+    <attribute name="src"/>
+    <attribute name="property"/>
+    <sequential>
+      <java classname="Libclasspath" classpath="${etc}" fork="true" failonerror="true" outputproperty="@{property}">
+        <arg value="@{type}"/>
+        <arg value="@{src}"/>
+      </java>
+    </sequential>
+  </macrodef>
+
+</project>

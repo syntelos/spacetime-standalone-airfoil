@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<project name="airfoil" default="jar">
+
+  <tstamp/>
+
+  <property name="src"  location="${basedir}/src"/>
+  <property name="tgt"  location="${basedir}/tgt"/>
+  <property name="dst"  location="${basedir}"/>
+  <property name="lib"  location="${basedir}/lib"/>
+  <property name="etc"  location="${basedir}/etc"/>
+  <property name="test" location="${basedir}/test"/>
+  <property name="ver"  location="${basedir}/ver"/>
+
+  <property name="main.class" value="airfoil.Main"/>
+
+  <property name="compiler.source" value="1.5"/>
+  <property name="compiler.target" value="1.5"/>
+  <property name="compiler.optimize" value="false"/>
+  <property name="compiler.debug" value="true"/>
+  <property name="compiler.deprecation" value="false"/>
+  <property name="compiler.encoding" value="utf-8"/>
+
+  <include file="${etc}/build.in.xml"/>
+
+  <path id="lib.path.gdx-jogl">
+    <fileset dir="${lib}">
+      <include name="**/gdx-backend-jogl.jar" />
+      <include name="**/gdx.jar" />
+      <include name="**/lxl-*.jar" />
+      <include name="**/fv3-*.jar" />
+      <include name="**/joda-time-*.jar" />
+      <include name="**/spacetime-*.jar" />
+      <include name="**/json-*.jar" />
+    </fileset>
+  </path>
+
+  <etc-libclasspath type="jogl" src="${lib}" property="lib.classpath.gdx-jogl"/>
+
+  <target name="jar" depends="compile" description="Create JAR. Dep 'compile'.">
+    <delete>
+      <fileset dir="${basedir}" includes="airfoil-*.jar" />
+      <fileset dir="${basedir}" includes="airfoil-*.zip" />
+    </delete>
+    <echo message=" Main-Class: ${main.class}"/>
+    <echo message=" Class-Path: ${lib.classpath.gdx-jogl}"/>
+    <jar jarfile="${target.jar}" >
+      <manifest>
+        <attribute name="Main-Class" value="${main.class}"/>
+        <attribute name="Class-Path" value="${lib.classpath.gdx-jogl}"/>
+      </manifest>
+      <fileset dir="${tgt}" includes="**/*.class" />
+
+      <fileset dir="${basedir}" includes="data/*.*" />
+      <fileset dir="${basedir}" includes="data/shaders/*.*" />
+      <fileset dir="${basedir}" includes="fonts/*.*" />
+    </jar>
+    <delete dir="${tgt}"/>
+  </target>
+
+  <target name="compile" depends="version">
+    <mkdir dir="${tgt}"/>
+
+
+    <copy file="${ver}/src/airfoil/Version.java" tofile="${src}/airfoil/Version.java"
+          filtering="true" overwrite="true">
+      <filterset>
+        <filter token="VersionMajor" value="${version.major}"/>
+        <filter token="VersionMinor" value="${version.minor}"/>
+        <filter token="VersionBuild" value="${version.build}"/>
+        <filter token="VersionName"  value="${version.name}"/>
+      </filterset>
+    </copy>
+
+    <javac srcdir="${src}" destdir="${tgt}" debug="${compiler.debug}" encoding="${compiler.encoding}"
+           classpathref="lib.path.gdx-jogl" source="${compiler.source}" target="${compiler.target}"
+           includeAntRuntime="false">
+    </javac>
+  </target>
+
+  <target name="clean" depends="version" description="Clean up project.">
+    <delete dir="${tgt}" quiet="true"/>
+    <delete>
+      <fileset dir="${basedir}" includes="airfoil-*.jar" />
+      <fileset dir="${basedir}" includes="airfoil-*.zip" />
+    </delete>
+  </target>
+
+  <target name="version" description="Report current project version.">
+    <property file="build.version"/>
+    <fail unless="version.major"/>
+    <fail unless="version.minor"/>
+    <fail unless="version.build"/>
+    <property name="version.name" value="${ant.project.name}"/>
+    <property name="this.version" value="${version.major}.${version.minor}.${version.build}"/>
+    <echo>         ${version.name} ${this.version}
+    </echo>
+    <property name="target.jar" value="${dst}/${version.name}-${this.version}.jar"/>
+    <property name="target-test.jar" value="${dst}/${version.name}-test-${this.version}.jar"/>
+
+  </target>
+
+  <target name="major" description="Increment project version.">
+
+    <propertyfile file="build.version">
+      <entry key="version.major" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="build.version"/>
+    <fail unless="version.major"/>
+    <fail unless="version.minor"/>
+    <fail unless="version.build"/>
+    <property name="version.name" value="${ant.project.name}"/>
+    <property name="this.version" value="${version.major}.${version.minor}.${version.build}"/>
+    <echo>         ${version.name} ${this.version}
+    </echo>
+  </target>
+
+  <target name="minor" description="Increment project version.">
+
+    <propertyfile file="build.version">
+      <entry key="version.minor" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="build.version"/>
+    <fail unless="version.major"/>
+    <fail unless="version.minor"/>
+    <fail unless="version.build"/>
+    <property name="version.name" value="${ant.project.name}"/>
+    <property name="this.version" value="${version.major}.${version.minor}.${version.build}"/>
+    <echo>         ${version.name} ${this.version}
+    </echo>
+  </target>
+
+  <target name="build" description="Increment project version.">
+
+    <propertyfile file="build.version">
+      <entry key="version.build" type="int" operation="+" value="1"/>
+    </propertyfile>
+    <property file="build.version"/>
+    <fail unless="version.major"/>
+    <fail unless="version.minor"/>
+    <fail unless="version.build"/>
+    <property name="version.name" value="${ant.project.name}"/>
+    <property name="this.version" value="${version.major}.${version.minor}.${version.build}"/>
+    <echo>         ${version.name} ${this.version}
+    </echo>
+  </target>
+
+  <target name="test" depends="version" description="Build jar from 'test'">
+    <mkdir dir="${tgt}"/>
+
+    <javac srcdir="${src}" destdir="${tgt}" debug="${compiler.debug}" encoding="${compiler.encoding}"
+           classpathref="lib.path.gdx-jogl" source="${compiler.source}" target="${compiler.target}">
+    </javac>
+
+    <javac srcdir="${test}" destdir="${tgt}" debug="${compiler.debug}" encoding="${compiler.encoding}"
+           source="${compiler.source}" target="${compiler.target}">
+      <classpath>
+        <path refid="lib.path.gdx-jogl"/>
+        <pathelement location="${tgt}"/>
+      </classpath>
+    </javac>
+    <jar jarfile="${target-test.jar}" >
+      <manifest>
+        <attribute name="Class-Path" value="${lib.classpath.gdx-jogl}"/>
+      </manifest>
+      <fileset dir="${tgt}" includes="**/*.class" />
+
+      <fileset dir="${basedir}" includes="data/*.*" />
+      <fileset dir="${basedir}" includes="data/shaders/*.*" />
+    </jar>
+    <delete dir="${tgt}"/>
+  </target>
+</project>

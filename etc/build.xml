@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="libclasspath" default="compile">
+
+  <property name="compiler.source" value="1.6"/>
+  <property name="compiler.target" value="1.6"/>
+  <property name="compiler.optimize" value="false"/>
+  <property name="compiler.debug" value="true"/>
+  <property name="compiler.deprecation" value="false"/>
+
+  <property name="src" value="."/>
+
+  <target name="compile">
+
+    <javac srcdir="${src}"
+           optimize="${compiler.optimize}"
+           deprecation="${compiler.deprecation}"
+           debug="${compiler.debug}"
+           source="${compiler.source}"
+           target="${compiler.target}"
+           failonerror="true"
+	   includeAntRuntime="false"/>
+
+  </target>
+
+</project>
